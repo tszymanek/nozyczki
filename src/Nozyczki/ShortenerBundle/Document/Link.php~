@@ -1,0 +1,21 @@
+<?php
+
+namespace Nozyczki\ShortenerBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
+class Link
+{
+    /**
+     * @MongoDB\Id
+     */
+    private $id;
+
+    /**
+     * @MongoDB\String
+     */
+    private $url;
+}
