@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Uri</th>
+                <th>Alias</th>
+                <th>EncodedUri</th>
+                <th>CreatedAt</th>
+                <th>updatedAt</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in links %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.uri }}</td>
+                <td>{{ row.alias }}</td>
+                <td>{{ row.encodedUri }}</td>
+                <td>{{ row.createdAt|date("j.n.Y G:i:s") }}</td>
+                <td>{{ row.updatedAt|date("j.n.Y G:i:s") }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -6,6 +6,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\HasLifecycleCallbacks
  */
 class Link
 {
@@ -17,5 +18,97 @@ class Link
     /**
      * @MongoDB\String
      */
-    private $url;
+    private $uri;
+
+    /**
+     * @MongoDB\Boolean
+     */
+    private $alias;
+
+    /**
+     * @MongoDB\String
+     */
+    private $encodedUri;
+
+    /**
+     * @MongoDB\Date
+     */
+    private $createdAt;
+
+    /**
+     * @MongoDB\Date
+     */
+    private $updatedAt;
+
+    /**
+     * @return id $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $encodedUri
+     * @return self
+     */
+    public function setEncodedUri($encodedUri)
+    {
+        $this->encodedUri = $encodedUri;
+        return $this;
+    }
+
+    /**
+     * @return string $encodedUri
+     */
+    public function getEncodedUri()
+    {
+        return $this->encodedUri;
+    }
+
+    /**
+     * @param boolean $alias
+     * @return self
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+        return $this;
+    }
+
+    /**
+     * @return boolean $alias
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @param string $uri
+     * @return self
+     */
+    public function setUri($uri)
+    {
+        $this->uri = $uri;
+        return $this;
+    }
+
+    /**
+     * @return string $uri
+     */
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    /**
+     * @MongoDB\PrePersist
+     * @MongoDB\PreUpdate
+     */
+    public function registerDate(){
+        $this->updatedAt = new \DateTime();
+        if($this->createdAt == null)
+            $this->createdAt = new \DateTime();
+    }
 }
