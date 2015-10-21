@@ -2,11 +2,11 @@
 
 namespace Nozyczki\ShortenerBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
- * @MongoDB\HasLifecycleCallbacks
  */
 class Link
 {
@@ -21,29 +21,13 @@ class Link
     private $uri;
 
     /**
-     * @MongoDB\Boolean
+     * @MongoDB\ReferenceMany(targetDocument="Documents\Alias")
      */
-    private $hasAlias;
+    private $aliases;
 
-    /**
-     * @MongoDB\String
-     */
-    private $encodedUri;
-
-    /**
-     * @MongoDB\String
-     */
-    private $alias;
-
-    /**
-     * @MongoDB\Date
-     */
-    private $createdAt;
-
-    /**
-     * @MongoDB\Date
-     */
-    private $updatedAt;
+    public function __construct(){
+        $this->aliases = new ArrayCollection();
+    }
 
     /**
      * @return id $id
@@ -51,42 +35,6 @@ class Link
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $encodedUri
-     * @return self
-     */
-    public function setEncodedUri($encodedUri)
-    {
-        $this->encodedUri = $encodedUri;
-        return $this;
-    }
-
-    /**
-     * @return string $encodedUri
-     */
-    public function getEncodedUri()
-    {
-        return $this->encodedUri;
-    }
-
-    /**
-     * @param boolean $hasAlias
-     * @return self
-     */
-    public function setHasAlias($hasAlias)
-    {
-        $this->alias = $hasAlias;
-        return $this;
-    }
-
-    /**
-     * @return boolean $hasAlias
-     */
-    public function getHasAlias()
-    {
-        return $this->hasAlias;
     }
 
     /**
@@ -108,56 +56,27 @@ class Link
     }
 
     /**
-     * @MongoDB\PrePersist
-     * @MongoDB\PreUpdate
+     * Set alias
+     *
+     * @param string $aliases
+     * @return self
      */
-    public function registerDate(){
-        $this->updatedAt = new \DateTime();
-        if($this->createdAt == null)
-            $this->createdAt = new \DateTime();
+    public function setAlias($aliases)
+    {
+        $this->aliases = $aliases;
+        return $this;
     }
-
-//    /**
-//     * Set createdAt
-//     *
-//     * @param date $createdAt
-//     * @return self
-//     */
-//    public function setCreatedAt($createdAt)
-//    {
-//        $this->createdAt = $createdAt;
-//        return $this;
-//    }
 
     /**
-     * Get createdAt
+     * Get aliases
      *
-     * @return date $createdAt
+     * @return string $aliases
      */
-    public function getCreatedAt()
+    public function getAlias()
     {
-        return $this->createdAt;
+        return $this->aliases;
     }
 
-//    /**
-//     * Set updatedAt
-//     *
-//     * @param date $updatedAt
-//     * @return self
-//     */
-//    public function setUpdatedAt($updatedAt)
-//    {
-//        $this->updatedAt = $updatedAt;
-//        return $this;
-//    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return date $updatedAt
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
+    public function getAliases() { return $this->aliases; }
+    public function addProject(Alias $aliases) { $this->aliases[] = $aliases; }
 }

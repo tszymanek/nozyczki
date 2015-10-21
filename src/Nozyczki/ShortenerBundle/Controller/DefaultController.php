@@ -14,28 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="index")
-     * @Method("GET")
-     */
-    public function indexAction()
-    {
-        $dm=$this->get('doctrine_mongodb')->getManager();
-        $links = $dm->getRepository('NozyczkiShortenerBundle:Link')->findAll();
-
-        if (!$links) {
-            throw $this->createNotFoundException('No links found.');
-        }
-        return $this->render('NozyczkiShortenerBundle::index.html.twig', array(
-            'links' => $links
-        ));
-    }
-
-    /**
-     * @Route("/create")
+     * @Route("/")
      * @Method({"GET", "POST"})
      * @param Request $request
      */
-    public function createAction(Request $request)
+    public function indexAction(Request $request)
     {
         $link = new Link();
         $form = $this->createForm(new ShortenType(), $link);

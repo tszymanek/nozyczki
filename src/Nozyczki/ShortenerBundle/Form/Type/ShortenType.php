@@ -12,7 +12,6 @@ class ShortenType extends AbstractType
     {
         $builder
             ->add('uri')
-            ->add('encodedUri')
         ;
     }
 

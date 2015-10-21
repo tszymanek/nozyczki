@@ -8,42 +8,14 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  * @MongoDB\Document
  * @MongoDB\HasLifecycleCallbacks
  */
-class Link
-{
+class Alias{
     /**
      * @MongoDB\Id
      */
     private $id;
 
-    /**
-     * @MongoDB\String
-     */
-    private $uri;
-
-    /**
-     * @MongoDB\Boolean
-     */
-    private $hasAlias;
-
-    /**
-     * @MongoDB\String
-     */
-    private $encodedUri;
-
-    /**
-     * @MongoDB\String
-     */
+    /** @MongoDB\String */
     private $alias;
-
-    /**
-     * @MongoDB\Date
-     */
-    private $createdAt;
-
-    /**
-     * @MongoDB\Date
-     */
-    private $updatedAt;
 
     /**
      * @return id $id
@@ -54,22 +26,19 @@ class Link
     }
 
     /**
-     * @param string $encodedUri
-     * @return self
+     * @MongoDB\Boolean
      */
-    public function setEncodedUri($encodedUri)
-    {
-        $this->encodedUri = $encodedUri;
-        return $this;
-    }
+    private $isCustom;
 
     /**
-     * @return string $encodedUri
+     * @MongoDB\Date
      */
-    public function getEncodedUri()
-    {
-        return $this->encodedUri;
-    }
+    private $createdAt;
+
+    /**
+     * @MongoDB\Date
+     */
+    private $updatedAt;
 
     /**
      * @param boolean $hasAlias
@@ -90,21 +59,21 @@ class Link
     }
 
     /**
-     * @param string $uri
+     * @param string $encodedUri
      * @return self
      */
-    public function setUri($uri)
+    public function setEncodedUri($encodedUri)
     {
-        $this->uri = $uri;
+        $this->encodedUri = $encodedUri;
         return $this;
     }
 
     /**
-     * @return string $uri
+     * @return string $encodedUri
      */
-    public function getUri()
+    public function getEncodedUri()
     {
-        return $this->uri;
+        return $this->encodedUri;
     }
 
     /**
@@ -160,4 +129,6 @@ class Link
     {
         return $this->updatedAt;
     }
+
+
 }
