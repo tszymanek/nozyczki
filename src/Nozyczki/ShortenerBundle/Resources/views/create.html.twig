@@ -2,6 +2,11 @@
 
 {% block body %}
     {{ form_start(form) }}
+    <div class="container">
+        <div class="input-group input-group-hg">
+            <span class="input-group-addon"></span>
+            <input type="text" class="form-control input-hg" placeholder="Username">
+        </div>
         <div>
             {{ form_label(form.uri, 'Uri') }}
             {{ form_widget(form.uri) }}
@@ -11,8 +16,9 @@
             {{ form_widget(form.encodedUri) }}
         </div>
         <div>
-            <input type="submit" value="Create">
+            <button class="btn btn-inverse" type="submit">Create</button>
         </div>
+    </div>
     {{ form_end(form) }}
 
 {% endblock %}

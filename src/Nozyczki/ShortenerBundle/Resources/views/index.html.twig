@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    {% stylesheets '@NozyczkiShortenerBundle/Resources/public/css/*' %}
+        <link href="{{ asset_url }}" rel="stylesheet">
+    {% endstylesheets %}
+{% endblock %}
 {% block body %}
     <table>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Uri</th>
-                <th>Alias</th>
+                {#<th>Alias</th>#}
                 <th>EncodedUri</th>
                 <th>CreatedAt</th>
                 <th>updatedAt</th>
@@ -17,7 +23,7 @@
             <tr>
                 <td>{{ row.id }}</td>
                 <td>{{ row.uri }}</td>
-                <td>{{ row.alias }}</td>
+                {#<td>{{ row.alias }}</td>#}
                 <td>{{ row.encodedUri }}</td>
                 <td>{{ row.createdAt|date("j.n.Y G:i:s") }}</td>
                 <td>{{ row.updatedAt|date("j.n.Y G:i:s") }}</td>
