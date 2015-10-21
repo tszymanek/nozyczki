@@ -6,6 +6,20 @@
     "autoload": {
         "psr-4": { "": "src/" }
     },
+    "repositories": {
+        "flat-ui": {
+            "type": "package",
+            "package": {
+                "name": "designmodo/Flat-UI",
+                "version": "2.2.2",
+                "source": {
+                    "url": "https://github.com/designmodo/Flat-UI",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    },
     "require": {
         "incenteev/composer-parameter-handler": "~2.0",
         "php": ">=5.3.9",
@@ -18,7 +32,8 @@
         "symfony/assetic-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
         "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/symfony": "2.7.*"
+        "symfony/symfony": "2.7.*",
+        "designmodo/Flat-UI": "2.2.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

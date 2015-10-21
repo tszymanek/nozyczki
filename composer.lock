@@ -4,9 +4,19 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "de97ea33400b376a54df207f51959a29",
-    "content-hash": "233425f1b1dcfd317d4a74fdea615256",
+    "hash": "492e5cd588d213f2465e9e7d8dbb8429",
+    "content-hash": "828984823b1ab99829d5b2a67f2dbf14",
     "packages": [
+        {
+            "name": "designmodo/Flat-UI",
+            "version": "2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/designmodo/Flat-UI",
+                "reference": "master"
+            },
+            "type": "library"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.7",
@@ -768,12 +778,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "7c23cbd6586a579ef055e6469e0aaef2a6f4d21d"
+                "reference": "aeea99947330d6e2be16a4a8ffc5f7cb2174bf50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/7c23cbd6586a579ef055e6469e0aaef2a6f4d21d",
-                "reference": "7c23cbd6586a579ef055e6469e0aaef2a6f4d21d",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/aeea99947330d6e2be16a4a8ffc5f7cb2174bf50",
+                "reference": "aeea99947330d6e2be16a4a8ffc5f7cb2174bf50",
                 "shasum": ""
             },
             "require": {
@@ -842,7 +852,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2015-10-15 15:44:06"
+            "time": "2015-10-21 06:56:34"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1287,17 +1297,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v4.0.1",
+            "version": "v4.0.2",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "62d99ba41144e704300e40f755346553702b27c9"
+                "reference": "6f5d663a1a34b5116c69009895feb81fb37a8875"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/62d99ba41144e704300e40f755346553702b27c9",
-                "reference": "62d99ba41144e704300e40f755346553702b27c9",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/6f5d663a1a34b5116c69009895feb81fb37a8875",
+                "reference": "6f5d663a1a34b5116c69009895feb81fb37a8875",
                 "shasum": ""
             },
             "require": {
@@ -1343,7 +1353,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-08-03 10:07:56"
+            "time": "2015-10-20 06:54:18"
         },
         {
             "name": "sensio/framework-extra-bundle",
