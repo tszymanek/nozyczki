@@ -29,6 +29,7 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $dm = $this->get('doctrine_mongodb')->getManager();
             $dm->persist($link);
+            $dm->persist($alias);
             $dm->flush();
 
             return $this->redirect($this->generateUrl(

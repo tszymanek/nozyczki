@@ -21,7 +21,7 @@ class Link
     private $uri;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Documents\Alias")
+     * @MongoDB\ReferenceMany(targetDocument="Alias")
      */
     private $aliases;
 

@@ -8,7 +8,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  * @MongoDB\Document
  * @MongoDB\HasLifecycleCallbacks
  */
-class Alias{
+class Alias
+{
     /**
      * @MongoDB\Id
      */
