@@ -14,21 +14,15 @@ class Alias{
      */
     private $id;
 
-    /** @MongoDB\String */
-    private $alias;
-
-    /**
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
     /**
      * @MongoDB\Boolean
      */
-    private $isCustom;
+    private $custom;
+
+    /**
+     * @MongoDB\String
+     */
+    private $alias;
 
     /**
      * @MongoDB\Date
@@ -39,41 +33,50 @@ class Alias{
      * @MongoDB\Date
      */
     private $updatedAt;
+    /**
+     * @return id $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
-     * @param boolean $hasAlias
+     * @return boolean $custom
+     */
+    public function isCustom()
+    {
+        return $this->custom;
+    }
+
+    public function __construct(){
+        $this->custom = FALSE;
+    }
+
+    /**
      * @return self
      */
-    public function setHasAlias($hasAlias)
+    public function setIsCustom()
     {
-        $this->alias = $hasAlias;
-        return $this;
+        return $this->custom = TRUE;
     }
 
     /**
-     * @return boolean $hasAlias
+     * @return string $alias
      */
-    public function getHasAlias()
+    public function getAlias()
     {
-        return $this->hasAlias;
+        return $this->alias;
     }
 
     /**
-     * @param string $encodedUri
+     * @param string $alias
      * @return self
      */
-    public function setEncodedUri($encodedUri)
+    public function setAlias($alias)
     {
-        $this->encodedUri = $encodedUri;
+        $this->alias = $alias;
         return $this;
-    }
-
-    /**
-     * @return string $encodedUri
-     */
-    public function getEncodedUri()
-    {
-        return $this->encodedUri;
     }
 
     /**
@@ -86,18 +89,6 @@ class Alias{
             $this->createdAt = new \DateTime();
     }
 
-//    /**
-//     * Set createdAt
-//     *
-//     * @param date $createdAt
-//     * @return self
-//     */
-//    public function setCreatedAt($createdAt)
-//    {
-//        $this->createdAt = $createdAt;
-//        return $this;
-//    }
-
     /**
      * Get createdAt
      *
@@ -108,18 +99,6 @@ class Alias{
         return $this->createdAt;
     }
 
-//    /**
-//     * Set updatedAt
-//     *
-//     * @param date $updatedAt
-//     * @return self
-//     */
-//    public function setUpdatedAt($updatedAt)
-//    {
-//        $this->updatedAt = $updatedAt;
-//        return $this;
-//    }
-
     /**
      * Get updatedAt
      *
@@ -129,6 +108,4 @@ class Alias{
     {
         return $this->updatedAt;
     }
-
-
 }

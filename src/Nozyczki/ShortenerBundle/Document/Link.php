@@ -38,6 +38,14 @@ class Link
     }
 
     /**
+     * @return string $uri
+     */
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    /**
      * @param string $uri
      * @return self
      */
@@ -47,36 +55,13 @@ class Link
         return $this;
     }
 
-    /**
-     * @return string $uri
-     */
-    public function getUri()
-    {
-        return $this->uri;
-    }
-
-    /**
-     * Set alias
-     *
-     * @param string $aliases
-     * @return self
-     */
-    public function setAlias($aliases)
-    {
-        $this->aliases = $aliases;
-        return $this;
-    }
-
-    /**
-     * Get aliases
-     *
-     * @return string $aliases
-     */
-    public function getAlias()
+    public function getAliases()
     {
         return $this->aliases;
     }
 
-    public function getAliases() { return $this->aliases; }
-    public function addProject(Alias $aliases) { $this->aliases[] = $aliases; }
+    public function addAlias(Alias $aliases)
+    {
+        $this->aliases[] = $aliases;
+    }
 }

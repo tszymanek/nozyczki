@@ -3,10 +3,10 @@
 namespace Nozyczki\ShortenerBundle\Controller;
 
 use Nozyczki\ShortenerBundle\Document\Link;
+use Nozyczki\ShortenerBundle\Document\Alias;
 use Nozyczki\ShortenerBundle\Form\Type\ShortenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +21,8 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $link = new Link();
+        $alias = new Alias();
+        $link->getAliases()->add($alias);
         $form = $this->createForm(new ShortenType(), $link);
 
         $form->handleRequest($request);
@@ -37,6 +39,7 @@ class DefaultController extends Controller
 
         return $this->render('NozyczkiShortenerBundle::create.html.twig', array(
             'link' => $link,
+            'aliases' => $alias,
             'form' => $form->createView(),
         ));
     }
