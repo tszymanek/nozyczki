@@ -22,7 +22,8 @@ class DefaultController extends Controller
     {
         $link = new Link();
         $alias = new Alias();
-        $link->getAliases()->add($alias);
+        $link->addAlias($alias);
+        $alias->setLink($link);
         $form = $this->createForm(new ShortenType(), $link);
 
         $form->handleRequest($request);

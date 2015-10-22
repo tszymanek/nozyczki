@@ -7,7 +7,7 @@
             <tr>
                 <th>Id</th>
                 <th>Uri</th>
-                {#<th>Alias</th>#}
+                <th>Alias</th>
                 {#<th>EncodedUri</th>#}
                 <th>CreatedAt</th>
                 <th>updatedAt</th>
@@ -16,6 +16,10 @@
         <tbody>
             <tr>
                 <td>{{ alias.id }}</td>
+                <td>
+                    {#{{ alias.link.uri }}#}
+                </td>
+                <td>{{ alias.link }}</td>
                 {#<td>{{ link.uri }}</td>#}
                 <td>{{ alias.alias }}</td>
                 {#<td>{{ link.encodedUri }}</td>#}
