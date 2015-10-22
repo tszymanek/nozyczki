@@ -34,7 +34,7 @@ class DefaultController extends Controller
 
             return $this->redirect($this->generateUrl(
                 'link_show',
-                array('encodedUri' => $link->getEncodedUri())
+                array('alias' => $alias->getAlias())
             ));
         }
 
@@ -46,18 +46,18 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{encodedUri}", name="link_show")
+     * @Route("/{alias}", name="link_show")
      * @Method("GET")
      */
-    public function showAction($encodedUri)
+    public function showAction($alias)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $link = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('encodedUri' => $encodedUri));
-        if (!$link) {
-            throw $this->createNotFoundException('Unable to find link '.$encodedUri);
+        $alias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias));
+        if (!$alias) {
+            throw $this->createNotFoundException('Unable to find link '.$alias);
         }
         return $this->render('NozyczkiShortenerBundle::show.html.twig', array(
-            'link' => $link
+            'alias' => $alias
         ));
     }
 }

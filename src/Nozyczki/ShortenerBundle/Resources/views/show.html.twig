@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ dump(alias) }}
     <table>
         <thead>
             <tr>
@@ -14,12 +15,12 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ link.id }}</td>
-                <td>{{ link.uri }}</td>
-                {#<td>{{ link.alias }}</td>#}
+                <td>{{ alias.id }}</td>
+                {#<td>{{ link.uri }}</td>#}
+                <td>{{ alias.alias }}</td>
                 {#<td>{{ link.encodedUri }}</td>#}
-                <td>{{ link.createdAt|date("j.n.Y G:i:s") }}</td>
-                <td>{{ link.updatedAt|date("j.n.Y G:i:s") }}</td>
+                <td>{{ alias.createdAt|date("j.n.Y G:i:s") }}</td>
+                <td>{{ alias.updatedAt|date("j.n.Y G:i:s") }}</td>
             </tr>
         </tbody>
     </table>

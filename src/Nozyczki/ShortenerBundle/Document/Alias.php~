@@ -114,26 +114,4 @@ class Alias
     {
         return $this->updatedAt;
     }
-
-    /**
-     * Set link
-     *
-     * @param Nozyczki\ShortenerBundle\Document\Link $link
-     * @return self
-     */
-    public function setLink(\Nozyczki\ShortenerBundle\Document\Link $link)
-    {
-        $this->link = $link;
-        return $this;
-    }
-
-    /**
-     * Get link
-     *
-     * @return Nozyczki\ShortenerBundle\Document\Link $link
-     */
-    public function getLink()
-    {
-        return $this->link;
-    }
 }
