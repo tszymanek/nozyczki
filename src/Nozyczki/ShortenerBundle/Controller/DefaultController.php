@@ -32,7 +32,6 @@ class DefaultController extends Controller
             $dm->persist($link);
             $dm->persist($alias);
             $dm->flush();
-
             return $this->redirect($this->generateUrl(
                 'link_show',
                 array('alias' => $alias->getAlias())

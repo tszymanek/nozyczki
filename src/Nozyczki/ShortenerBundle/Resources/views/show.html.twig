@@ -2,6 +2,7 @@
 
 {% block body %}
     {{ dump(alias) }}
+    {#{{ dump(link) }}#}
     <table>
         <thead>
             <tr>
@@ -15,16 +16,16 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ alias.id }}</td>
+                {#<td>{{ alias.id }}</td>#}
                 <td>
                     {#{{ alias.link.uri }}#}
                 </td>
-                <td>{{ alias.link }}</td>
+                {#<td>{{ alias.link }}</td>#}
                 {#<td>{{ link.uri }}</td>#}
-                <td>{{ alias.alias }}</td>
+                {#<td>{{ alias.alias }}</td>#}
                 {#<td>{{ link.encodedUri }}</td>#}
-                <td>{{ alias.createdAt|date("j.n.Y G:i:s") }}</td>
-                <td>{{ alias.updatedAt|date("j.n.Y G:i:s") }}</td>
+                {#<td>{{ alias.createdAt|date("j.n.Y G:i:s") }}</td>#}
+                {#<td>{{ alias.updatedAt|date("j.n.Y G:i:s") }}</td>#}
             </tr>
         </tbody>
     </table>

@@ -55,13 +55,33 @@ class Link
         return $this;
     }
 
+    /**
+     * Add alias
+     *
+     * @param Nozyczki\ShortenerBundle\Document\Alias $alias
+     */
+    public function addAlias(\Nozyczki\ShortenerBundle\Document\Alias $alias)
+    {
+        $this->aliases[] = $alias;
+    }
+
+    /**
+     * Remove alias
+     *
+     * @param Nozyczki\ShortenerBundle\Document\Alias $alias
+     */
+    public function removeAlias(\Nozyczki\ShortenerBundle\Document\Alias $alias)
+    {
+        $this->aliases->removeElement($alias);
+    }
+
+    /**
+     * Get aliases
+     *
+     * @return \Doctrine\Common\Collections\Collection $aliases
+     */
     public function getAliases()
     {
         return $this->aliases;
-    }
-
-    public function addAlias(Alias $aliases)
-    {
-        $this->aliases[] = $aliases;
     }
 }

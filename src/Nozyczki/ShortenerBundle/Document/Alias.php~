@@ -114,4 +114,72 @@ class Alias
     {
         return $this->updatedAt;
     }
+
+    /**
+     * Set custom
+     *
+     * @param boolean $custom
+     * @return self
+     */
+    public function setCustom($custom)
+    {
+        $this->custom = $custom;
+        return $this;
+    }
+
+    /**
+     * Get custom
+     *
+     * @return boolean $custom
+     */
+    public function getCustom()
+    {
+        return $this->custom;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param date $createdAt
+     * @return self
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param date $updatedAt
+     * @return self
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * Set link
+     *
+     * @param Nozyczki\ShortenerBundle\Document\Link $link
+     * @return self
+     */
+    public function setLink(\Nozyczki\ShortenerBundle\Document\Link $link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return Nozyczki\ShortenerBundle\Document\Link $link
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
 }

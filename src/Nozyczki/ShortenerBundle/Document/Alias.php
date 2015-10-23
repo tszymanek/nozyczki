@@ -116,6 +116,28 @@ class Alias
     }
 
     /**
+     * Set custom
+     *
+     * @param boolean $custom
+     * @return self
+     */
+    public function setCustom($custom)
+    {
+        $this->custom = $custom;
+        return $this;
+    }
+
+    /**
+     * Get custom
+     *
+     * @return boolean $custom
+     */
+    public function getCustom()
+    {
+        return $this->custom;
+    }
+
+    /**
      * Set link
      *
      * @param Nozyczki\ShortenerBundle\Document\Link $link

@@ -1,0 +1,1 @@
+zend_extension=/usr/lib/php5/20121212/xdebug.so /etc/php5/cli/mods-available/xdebug.ini
