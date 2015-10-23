@@ -29,6 +29,12 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $dm = $this->get('doctrine_mongodb')->getManager();
+//            $linkRequest=$request->request->get('uri');
+//            $aliasRequest=$request->request->get('alias');
+//            $linkExists = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $linkRequest));
+//            if($linkExists){
+
+//            }
             $dm->persist($link);
             $dm->persist($alias);
             $dm->flush();
@@ -53,7 +59,7 @@ class DefaultController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $alias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias));
-//        $link = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('id' => $alias->getLink()));
+        $alias->getLink()->getUri();
         if (!$alias) {
             throw $this->createNotFoundException('Unable to find link '.$alias);
         }

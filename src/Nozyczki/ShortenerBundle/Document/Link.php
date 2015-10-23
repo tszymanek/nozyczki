@@ -25,9 +25,9 @@ class Link
      */
     private $aliases;
 
-    public function __construct(){
-        $this->aliases = new ArrayCollection();
-    }
+//    public function __construct(){
+//        $this->aliases = new ArrayCollection();
+//    }
 
     /**
      * @return id $id
