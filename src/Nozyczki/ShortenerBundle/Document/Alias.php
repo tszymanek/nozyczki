@@ -26,7 +26,7 @@ class Alias
     private $alias;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Link", inversedBy="aliases")
+     * @MongoDB\ReferenceOne(targetDocument="Link", inversedBy="aliases", simple=true)
      */
     private $link;
 

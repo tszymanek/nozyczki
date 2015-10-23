@@ -53,11 +53,13 @@ class DefaultController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $alias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias));
+//        $link = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('id' => $alias->getLink()));
         if (!$alias) {
             throw $this->createNotFoundException('Unable to find link '.$alias);
         }
         return $this->render('NozyczkiShortenerBundle::show.html.twig', array(
-            'alias' => $alias
+            'alias' => $alias,
+//            'link' => $link
         ));
     }
 }
