@@ -58,7 +58,8 @@ class APIShortenerController extends Controller
                   'message' => $e->getMessage(),
                   'color'   => $retColor
                 ),
-                $retCode
+                $retCode,
+                ['Access-Control-Allow-Origin' => '*']
             );
         }
 
@@ -67,9 +68,13 @@ class APIShortenerController extends Controller
         return new JsonResponse(
             array(
               'message' => $retMessage,
-              'color'   => $retColor
+              'color'   => $retColor,
+              'params'  => array(
+                  'short_url' => $alias->getAlias()
+              ),
             ),
-            $retCode
+            $retCode,
+            ['Access-Control-Allow-Origin' => '*']
         );
     }
 
@@ -101,7 +106,8 @@ class APIShortenerController extends Controller
                     'message' => $e->getMessage(),
                     'color'   => $retColor
                   ),
-                  $retCode
+                  $retCode,
+                  ['Access-Control-Allow-Origin' => '*']
               );
         }
 
@@ -116,7 +122,8 @@ class APIShortenerController extends Controller
                   'url' => $alias->getLink()->getUri()
               ),
             ),
-            $retCode
+            $retCode,
+            ['Access-Control-Allow-Origin' => '*']
         );
     }
 
@@ -157,6 +164,11 @@ class APIShortenerController extends Controller
               }
         } else {
               $alias = new Alias(array('custom' => true));
+              $aliasExists = $dm->getRepository("NozyczkiShortenerBundle:Alias")->findOneBy(array('alias' => $shortUrl));
+              if (count($aliasExists) > 0)
+                  throw new \Exception('Given shortened alias exists, pick another one!');
+                  
+              $alias->setAlias($shortUrl);
               $validator = $this->get('validator');
               if (count($aliasErrors = $validator->validate($alias)))
                   throw new \Exception($aliasErrors);
