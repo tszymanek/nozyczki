@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class APIShortenerController extends Controller
 {
 
-    const MESSAGE_CLASS = array(200 => 'green', 400 => 'red', 'default' => 'yellow');
+    const MESSAGE_CLASS = array(200 => 'green', 401 => 'red', 'default' => 'yellow');
 
     /**
      * Akcja dodawania, oczekuje przekazania postem paramaetrow:
@@ -32,7 +32,7 @@ class APIShortenerController extends Controller
     public function addAction(Request $request)
     {
         $requestData  = $request->request->all();
-        $retCode      = 400;
+        $retCode      = 401;
         $retMessage   = 'Saved new shortened link';
         try {
             if (null == ($uri = $requestData['url']))
@@ -56,7 +56,8 @@ class APIShortenerController extends Controller
             return new JsonResponse(
                 array(
                   'message' => $e->getMessage(),
-                  'color'   => $retColor
+                  'color'   => $retColor,
+                  'status'  => false
                 ),
                 $retCode,
                 ['Access-Control-Allow-Origin' => '*']
@@ -70,7 +71,7 @@ class APIShortenerController extends Controller
               'message' => $retMessage,
               'color'   => $retColor,
               'params'  => array(
-                  'short_url' => $alias->getAlias()
+                  'short_url' => $this->container->getParameter('DOMAIN').$alias->getAlias()
               ),
             ),
             $retCode,
@@ -167,7 +168,7 @@ class APIShortenerController extends Controller
               $aliasExists = $dm->getRepository("NozyczkiShortenerBundle:Alias")->findOneBy(array('alias' => $shortUrl));
               if (count($aliasExists) > 0)
                   throw new \Exception('Given shortened alias exists, pick another one!');
-                  
+
               $alias->setAlias($shortUrl);
               $validator = $this->get('validator');
               if (count($aliasErrors = $validator->validate($alias)))
