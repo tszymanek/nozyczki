@@ -31,10 +31,11 @@ class DefaultController extends Controller
             $dm = $this->get('doctrine_mongodb')->getManager();
 //            $linkRequest=$request->request->get('uri');
 //            $aliasRequest=$request->request->get('alias');
-//            $linkExists = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $linkRequest));
-//            if($linkExists){
+            $linkRequest=$link->getUri();
+            $linkExists = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $linkRequest));
+            if($linkExists){
 
-//            }
+            }
             $dm->persist($link);
             $dm->persist($alias);
             $dm->flush();
