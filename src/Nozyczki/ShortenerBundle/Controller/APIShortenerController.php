@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class APIShortenerController extends Controller
 {
 
-    const MESSAGE_CLASS = array(200 => 'green', 401 => 'red', 'default' => 'yellow');
-
     /**
      * Akcja dodawania, oczekuje przekazania postem paramaetrow:
      * 'url' => validUrl,
@@ -46,17 +44,16 @@ class APIShortenerController extends Controller
             $alias      = $aliasState['alias'];
             if(!$linkState['state'] || !$aliasState['state']) {
                   $link->addAlias($alias);
-                  $dm->getManager()->persist($alias);
+                  $alias->setLink($link);
                   $dm->getManager()->persist($link);
+                  $dm->getManager()->persist($alias);
             }
 
             $dm->getManager()->flush();
         } catch(\Exception $e) {
-            $retColor = self::provideColor($retCode);
             return new JsonResponse(
                 array(
                   'message' => $e->getMessage(),
-                  'color'   => $retColor,
                   'status'  => false
                 ),
                 $retCode,
@@ -65,11 +62,9 @@ class APIShortenerController extends Controller
         }
 
         $retCode = 200;
-        $retColor = self::provideColor($retCode);
         return new JsonResponse(
             array(
               'message' => $retMessage,
-              'color'   => $retColor,
               'params'  => array(
                   'short_url' => $this->container->getParameter('DOMAIN').$alias->getAlias()
               ),
@@ -103,11 +98,9 @@ class APIShortenerController extends Controller
           if (empty($alias))
               throw new \Exception('No URL shortened under this alias');
         } catch (\Exception $e) {
-              $retColor = self::provideColor($retCode);
               return new JsonResponse(
                   array(
                     'message' => $e->getMessage(),
-                    'color'   => $retColor
                   ),
                   $retCode,
                   ['Access-Control-Allow-Origin' => '*']
@@ -115,12 +108,10 @@ class APIShortenerController extends Controller
         }
 
         $retCode    = 200;
-        $retColor   = $this::provideColor($retCode);
         $retMessage = 'Found shortened URL';
         return new JsonResponse(
             array(
               'message' => $retMessage,
-              'color'   => $retColor,
               'params'  => array(
                   'url' => $alias->getLink()->getUri()
               ),
@@ -181,14 +172,5 @@ class APIShortenerController extends Controller
             'state' => $exists,
             'alias' => $alias
         );
-    }
-
-    /**
-    * Metoda na podstawie headera ze statuscodem zwraca odpowiedni kolor do renderowania
-    */
-    private static function provideColor($retCode){
-      $colorSettings = SELF::MESSAGE_CLASS;
-
-      return isset($colorSettings[$retCode])?$colorSettings[$retCode]:$colorSettings['default'];
     }
 }

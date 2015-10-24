@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -56,17 +57,30 @@ class DefaultController extends Controller
      * @Route("/{alias}", name="link_show")
      * @Method("GET")
      */
-    public function showAction($alias)
+    public function showAction($alias, Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $alias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias));
-        $alias->getLink()->getUri();
-        if (!$alias) {
-            throw $this->createNotFoundException('Unable to find link '.$alias);
+        $aliasSuggested   = $alias;
+        try {
+            if (null == $aliasSuggested)
+                throw new \Exception('Empty shortened url given');
+            $aliasSuggested   = explode('/', $aliasSuggested);
+            $aliasSuggested   = end($aliasSuggested);
+            $aliasRepository  = $this->get('doctrine_mongodb')->getRepository('NozyczkiShortenerBundle:Alias');
+            $alias            = $aliasRepository->findOneBy(array('alias' => $aliasSuggested));
+            if (empty($alias))
+                throw new \Exception('No URL shortened under this alias');
+            $link             = $alias->getLink();
+            if (empty($link))
+                throw new \Exception('No URL shortened under this alias');
+        } catch (\Exception $e) {
+            return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
+                'message' => $e->getMessage()
+            ));
         }
-        return $this->render('NozyczkiShortenerBundle::show.html.twig', array(
-            'alias' => $alias,
-//            'link' => $link
+
+        return $this->render('NozyczkiShortenerBundle::forward.html.twig', array(
+            'link'  => $link->getUri(),
+            'alias' => $alias
         ));
     }
 }
