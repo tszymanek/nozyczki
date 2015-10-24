@@ -25,7 +25,8 @@ var Renderer = JSClass({
 									+'<p>Given link alias is:</p>'
 									+'<input class="form-control shortened-input-readonly" id="focusedInput" type="text" readonly="true" value="'+this.responseData.short_url+'">'
 									+'<p><a class="btn btn-primary btn-lg" href="'+this.responseData.short_url+'" role="button">Go there!</a></p>'
-						+'</div>'
+                  +'<p><a class="btn btn-primary btn-lg" onClick="rebootApp()" role="button">Go back!</a></p>'
+          	+'</div>'
 					+'</div>';
 
 				$(this.toHide).hide();
@@ -42,6 +43,7 @@ var Renderer = JSClass({
 	      	+'</div>'
 					+'<div class="panel-body">'
                 +this.message
+                +'<p><a class="btn btn-primary btn-lg" onClick="rebootApp()" role="button">Go back!</a></p>'
           +'</div>'
 				+'</div>';
 

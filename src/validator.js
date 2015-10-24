@@ -10,3 +10,9 @@ function validateAlias(textval) {
 
     return false;
 }
+
+
+function rebootApp(){
+    $('#restMessage').html('');
+    $('#shorteningForm').slideToggle('fast');
+}

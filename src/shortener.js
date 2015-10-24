@@ -4,6 +4,7 @@ $(window).load(function(){
   var aliasMaybe    = $('input[name=alias]');
   var aliasGroup    = $('#aliasGroup');
   var shortenButton = $('button[name=submitShortener]');
+  var rebootButton  = $('#rebootApp');
   var aliasEnabled  = false;
 
   var shorteningForm  = '#shorteningForm';
@@ -13,7 +14,7 @@ $(window).load(function(){
   var REST = new RESTClient('http://nozyczki.dev/api', shorteningForm, restMessage);
 
   // Toggle alias
-  urlInput.focus(function(){
+    urlInput.focus(function(){
     if(!aliasEnabled) {
       aliasMaybe.slideToggle('fast');
       aliasEnabled = true;
