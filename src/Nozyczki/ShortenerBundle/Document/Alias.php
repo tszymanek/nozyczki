@@ -10,6 +10,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Alias
 {
+    const ALIAS_LENGHT = 5;
+
     /**
      * @MongoDB\Id
      */
@@ -55,8 +57,11 @@ class Alias
         return $this->custom;
     }
 
-    public function __construct(){
-        $this->custom = FALSE;
+    public function __construct($options = array()){
+        $isCustom = (isset($options['custom']))?$options['custom']:false;
+        $this->custom = $isCustom;
+        if(!$isCustom)
+          $this->setAlias();
     }
 
     /**
@@ -79,8 +84,10 @@ class Alias
      * @param string $alias
      * @return self
      */
-    public function setAlias($alias)
+    public function setAlias($alias = null)
     {
+        if(!$alias)
+            $alias = substr(md5(openssl_random_pseudo_bytes(SELF::ALIAS_LENGHT)), 0, SELF::ALIAS_LENGHT);
         $this->alias = $alias;
         return $this;
     }

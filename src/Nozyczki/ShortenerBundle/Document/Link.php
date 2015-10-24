@@ -4,6 +4,7 @@ namespace Nozyczki\ShortenerBundle\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MongoDB\Document
@@ -16,11 +17,16 @@ class Link
     private $id;
 
     /**
+     * @Assert\Url(message = "No valid url given")
      * @MongoDB\String
      */
     private $uri;
 
     /**
+     * @Assert\Regex(
+     *      pattern = "/[a-zA-Z0-9]{3,10}/",
+     *      message = "Malformed alias. Be sure it's 3-10 characters long and is a valid string."
+     * )
      * @MongoDB\ReferenceMany(targetDocument="Alias", mappedBy="link", simple=true)
      */
     private $aliases;
