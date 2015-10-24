@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>Angular 2 QuickStart</title>
+    <script src="./src/angular/system.js"></script>
+    <script src="./src/angular/typescript.js"></script>
+    <script src="./src/angular/angular2.dev.js"></script>
+    <script>
+      System.config({
+        transpiler: 'typescript',
+        typescriptOptions: { emitDecoratorMetadata: true }
+      });
+      System.import('./src/short.ts');
+    </script>
+  </head>
+  <body>
+    <my-app>loading...</my-app>
+  </body>
+</html>
