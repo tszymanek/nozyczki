@@ -8,7 +8,7 @@ var Renderer = JSClass({
 				this.toShow		= toShow;
     },
 		determineAction: function() {
-				if(this.status) {
+				if(this.status == true) {
 						this.renderShortenedURL();
 				} else {
 						this.renderErrorMessage();
@@ -16,12 +16,33 @@ var Renderer = JSClass({
 		},
 		renderShortenedURL: function() {
 				var jumboTron =
-				'<div class="panel panel-default panel-shortened">'
-					+'<h1>Nice m8!</h1>'
-					+'<p>'+this.message+'.</p>'
-					+'<p>Given link alias is:</p>'
-					+'<input class="form-control shortened-input-readonly" id="focusedInput" type="text" readonly="true" value="'+this.responseData.short_url+'">'
-					+'<p><a class="btn btn-primary btn-lg" href="'+this.responseData.short_url+'" role="button">Go there!</a></p>'
+				'<div class="panel panel-primary panel-shortened">'
+						+'<div class="panel-heading">'
+										+'<h3 class="panel-title">Nice m8!</h3>'
+						+'</div>'
+						+'<div class="panel-body">'
+									+'<p>'+this.message+'</p>'
+									+'<p>Given link alias is:</p>'
+									+'<input class="form-control shortened-input-readonly" id="focusedInput" type="text" readonly="true" value="'+this.responseData.short_url+'">'
+									+'<p><a class="btn btn-primary btn-lg" href="'+this.responseData.short_url+'" role="button">Go there!</a></p>'
+						+'</div>'
+					+'</div>';
+
+				$(this.toHide).hide();
+				$(this.toShow).append(jumboTron);
+				$(this.toShow).show();
+
+				return true;
+		},
+		renderErrorMessage: function() {
+				var jumboTron =
+				'<div class="panel panel-danger panel-shortened">'
+					+'<div class="panel-heading">'
+	                +'<h3 class="panel-title">Ooops!</h3>'
+	      	+'</div>'
+					+'<div class="panel-body">'
+                +this.message
+          +'</div>'
 				+'</div>';
 
 				$(this.toHide).hide();

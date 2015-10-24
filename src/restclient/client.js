@@ -37,13 +37,16 @@ var RESTClient = JSClass({
         var postRequest = $.post(
             postUrl,
             postParameters,
-            function(response) {
-                var response =  {status:true, data: response};
-                var renderer = new Renderer(hideElement, showElement, response);
+            function(serverResponse) {
+                var response  =  {status:true, data: serverResponse};
+                var renderer  = new Renderer(hideElement, showElement, response);
                 renderer.determineAction();
             })
-            .fail(function(response) {
-                return {status:false, data: response}
+            .fail(function(serverResponse) {
+                var parsedServerResponse = JSON.parse(serverResponse.responseText);
+                var response =  {status:false, data: parsedServerResponse};
+                var renderer = new Renderer(hideElement, showElement, response);
+                renderer.determineAction();
             });
     }
 });
