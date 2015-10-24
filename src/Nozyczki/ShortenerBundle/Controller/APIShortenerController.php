@@ -32,10 +32,10 @@ class APIShortenerController extends Controller
     public function addAction(Request $request)
     {
         $requestData  = $request->request->all();
-        $retCode      = 401;
+        $retCode      = 400;
         $retMessage   = 'Saved new shortened link';
         try {
-            if (null == ($uri = $requestData['url']))
+            if (!isset($requestData['url']) || null == ($uri = $requestData['url']))
                 throw new \Exception('Empty URL given');
             $dm         = $this->get('doctrine_mongodb');
             $linkState  = $this->provideLink($dm, $uri);
@@ -96,6 +96,8 @@ class APIShortenerController extends Controller
         try {
           if (null == $aliasSuggested)
               throw new \Exception('Empty shortened url given');
+          $aliasSuggested   = explode('/', $aliasSuggested);
+          $aliasSuggested   = end($aliasSuggested);
           $aliasRepository  = $this->get('doctrine_mongodb')->getRepository('NozyczkiShortenerBundle:Alias');
           $alias            = $aliasRepository->findOneBy(array('alias' => $aliasSuggested));
           if (empty($alias))
