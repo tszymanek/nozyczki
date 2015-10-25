@@ -23,10 +23,6 @@ class Link
     private $uri;
 
     /**
-     * @Assert\Regex(
-     *      pattern = "/[a-zA-Z0-9]{3,10}/",
-     *      message = "Malformed alias. Be sure it's 3-10 characters long and is a valid string."
-     * )
      * @MongoDB\ReferenceMany(targetDocument="Alias", mappedBy="link", simple=true)
      */
     private $aliases;

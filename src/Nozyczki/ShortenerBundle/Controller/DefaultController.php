@@ -30,15 +30,28 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $dm = $this->get('doctrine_mongodb')->getManager();
-//            $linkRequest=$request->request->get('uri');
-//            $aliasRequest=$request->request->get('alias');
-//            $linkExists = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $linkRequest));
-//            if($linkExists){
 
-//            }
+            // it's fine when link exists, just don't persist the same one
+            if(!null == ($dbLink = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $link->getUri())))) {
+                $link = $dbLink;
+            }
+
+            // Abort when alias exists
+            if(!null == ($dbAlias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias->getAlias())))) {
+                $message  = 'URL already shortened under this alias. Pick another one mate.';
+                $type     = 'warning';
+
+                return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
+                    'message' => $message,
+                    'type'    => $type
+                  )
+                );
+            }
+
             $dm->persist($link);
             $dm->persist($alias);
             $dm->flush();
+
             return $this->redirect($this->generateUrl(
                 'link_show',
                 array('alias' => $alias->getAlias())
