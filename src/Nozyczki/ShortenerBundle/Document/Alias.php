@@ -3,6 +3,7 @@
 namespace Nozyczki\ShortenerBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MongoDB\Document
@@ -23,6 +24,10 @@ class Alias
     private $custom;
 
     /**
+     * @Assert\Regex(
+     *      pattern = "/[a-zA-Z0-9]{3,10}/",
+     *      message = "Malformed alias. Be sure it's 3-10 characters long and is a valid string."
+     * )
      * @MongoDB\String
      */
     private $alias;

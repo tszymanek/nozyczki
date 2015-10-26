@@ -13,7 +13,6 @@ class ShortenType extends AbstractType
         $builder
             ->add('uri')
             ->add('aliases', 'collection', array('type' => new AliasType()));
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
