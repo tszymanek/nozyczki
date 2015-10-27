@@ -11,8 +11,15 @@ class ShortenType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('uri')
-            ->add('aliases', 'collection', array('type' => new AliasType()));
+            ->add('uri', 'text', array(
+                'attr' => array(
+                    'placeholder' => 'Url',
+                )))
+            ->add('aliases', 'collection', array(
+                'type' => new AliasType(),
+                'options'  => array(
+                    'label'  => false),
+                ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

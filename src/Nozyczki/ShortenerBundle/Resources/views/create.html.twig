@@ -1,27 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}✁.ws{% endblock %}
+{% form_theme form _self %}
+
+{% block form_widget_compound %}
+    {% for child in form %}
+        {% for kiddy in child %}
+            {{ form_row(kiddy, { 'attr': {'class': 'input-lg'}}) }}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <nav class="navbar navbar-inverse navbar-lg">
-                    <div class="navbar-header">
-                        <a href="#" class="navbar-brand">Nożyczki</a>
-                    </div>
-                    {{ form_start(form, { 'attr': {'class': 'form-inline navbar-form navbar-left'} }) }}
-                    <div class="form-group has-feedback">
-                        {{ form_widget(form.uri, { 'attr': {'class': 'input-lg', 'placeholder': 'Url'}}) }}
-                        <span class="form-control-feedback fui-link"></span>
-                    </div>
-                    <div class="form-group">
-                        {{ form_widget(form.aliases, { 'attr': {'class': 'input-hg', 'placeholder': 'Alias'}}) }}
-                    </div>
-                    <button class="btn btn-inverse btn-lg" type="submit">Create</button>
-                    {{ form_end(form) }}
-                </nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal'}}) }}
+            <div class="form-group">
+                {{ form_widget(form.uri, { 'attr': {'class': 'input-lg'}}) }}
             </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Options
+                </button>
+            </div>
+            <div class="collapse" id="collapseExample">
+                  {{ form_widget(form.aliases) }}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default btn-lg" type="submit">Shorten</button>
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
-
+</div>
 {% endblock %}
+{#{{ form_start(form, { 'attr': {'class': 'form-inline navbar-form navbar-left'} }) }}#}
+    {#{{ form_widget(form.uri, { 'attr': {'class': 'input-lg', 'placeholder': 'Url'}}) }}#}
+    {#<div class="container">#}
+        {#<div class="row">#}
+            {#<div class="col-md-8 col-md-offset-2">#}
+                {#<nav class="navbar navbar-inverse navbar-lg">#}
+                    {#<div class="navbar-header">#}
+                        {#<a href="#" class="navbar-brand">Nożyczki</a>#}
+                    {#</div>#}
+
+                    {#<div class="form-group has-feedback">#}
+                        {#<span class="form-control-feedback fui-link"></span>#}
+                    {#</div>#}
+                        {#{{ form_widget(form.aliases, { 'attr': {'class': 'input-hg', 'placeholder': 'Alias'}}) }}#}
+                    {#<button class="btn btn-inverse btn-lg" type="submit">Create</button>#}
+                {#</nav>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}

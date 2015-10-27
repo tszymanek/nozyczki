@@ -17,7 +17,10 @@ class Link
     private $id;
 
     /**
-     * @Assert\Url(message = "No valid url given")
+     * @Assert\Url(
+     * message = "The url '{{ value }}' is not a valid url",
+     * protocols = {"http", "https", "ftp", "ftps"}),
+     * checkDNS = true
      * @MongoDB\String
      */
     private $uri;
@@ -54,8 +57,6 @@ class Link
     }
 
     /**
-     * Add alias
-     *
      * @param Nozyczki\ShortenerBundle\Document\Alias $alias
      */
     public function addAlias(\Nozyczki\ShortenerBundle\Document\Alias $alias)
@@ -64,18 +65,6 @@ class Link
     }
 
     /**
-     * Remove alias
-     *
-     * @param Nozyczki\ShortenerBundle\Document\Alias $alias
-     */
-    public function removeAlias(\Nozyczki\ShortenerBundle\Document\Alias $alias)
-    {
-        $this->aliases->removeElement($alias);
-    }
-
-    /**
-     * Get aliases
-     *
      * @return \Doctrine\Common\Collections\Collection $aliases
      */
     public function getAliases()

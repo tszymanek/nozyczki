@@ -21,7 +21,7 @@ class Alias
     /**
      * @MongoDB\Boolean
      */
-    private $custom;
+    private $custom=FALSE;
 
     /**
      * @Assert\Regex(
@@ -38,15 +38,6 @@ class Alias
     private $link;
 
     /**
-     * @MongoDB\Date
-     */
-    private $createdAt;
-
-    /**
-     * @MongoDB\Date
-     */
-    private $updatedAt;
-    /**
      * @return id $id
      */
     public function getId()
@@ -62,13 +53,6 @@ class Alias
         return $this->custom;
     }
 
-    public function __construct($options = array()){
-        $isCustom = (isset($options['custom']))?$options['custom']:false;
-        $this->custom = $isCustom;
-        if(!$isCustom)
-          $this->setAlias();
-    }
-
     /**
      * @return self
      */
@@ -76,6 +60,13 @@ class Alias
     {
         return $this->custom = TRUE;
     }
+
+//    public function __construct($options = array()){
+//        $isCustom = (isset($options['custom']))?$options['custom']:false;
+//        $this->custom = $isCustom;
+//        if(!$isCustom)
+//          $this->setAlias();
+//    }
 
     /**
      * @return string $alias
@@ -98,60 +89,14 @@ class Alias
     }
 
     /**
-     * @MongoDB\PrePersist
-     * @MongoDB\PreUpdate
+     * @return Nozyczki\ShortenerBundle\Document\Link $link
      */
-    public function registerDate(){
-        $this->updatedAt = new \DateTime();
-        if($this->createdAt == null)
-            $this->createdAt = new \DateTime();
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return date $createdAt
-     */
-    public function getCreatedAt()
+    public function getLink()
     {
-        return $this->createdAt;
+        return $this->link;
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return date $updatedAt
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set custom
-     *
-     * @param boolean $custom
-     * @return self
-     */
-    public function setCustom($custom)
-    {
-        $this->custom = $custom;
-        return $this;
-    }
-
-    /**
-     * Get custom
-     *
-     * @return boolean $custom
-     */
-    public function getCustom()
-    {
-        return $this->custom;
-    }
-
-    /**
-     * Set link
-     *
      * @param Nozyczki\ShortenerBundle\Document\Link $link
      * @return self
      */
@@ -159,15 +104,5 @@ class Alias
     {
         $this->link = $link;
         return $this;
-    }
-
-    /**
-     * Get link
-     *
-     * @return Nozyczki\ShortenerBundle\Document\Link $link
-     */
-    public function getLink()
-    {
-        return $this->link;
     }
 }
