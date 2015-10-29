@@ -5,18 +5,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}✁.ws{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-            {#{% stylesheets '@NozyczkiShortenerBundle/Resources/public/css/flat-ui.min.css' %}#}
-                {#<link href="{{ asset_url }}" rel="stylesheet">#}
-            {#{% endstylesheets %}#}
+            {% stylesheets
+                'bundles/nozyczkishortener/css/vendor/*'
+                'bundles/nozyczkishortener/css/flat-ui.min.css'
+            'bundles/nozyczkishortener/css/style.css'
+            filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            {% javascripts
+                'bundles/nozyczkishortener/js/vendor/*'
+                'bundles/nozyczkishortener/js/*'
+            %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
     </body>
 </html>

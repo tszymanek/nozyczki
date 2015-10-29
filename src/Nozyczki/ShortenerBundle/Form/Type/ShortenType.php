@@ -13,7 +13,7 @@ class ShortenType extends AbstractType
         $builder
             ->add('uri', 'text', array(
                 'attr' => array(
-                    'placeholder' => 'Url',
+                    'placeholder' => 'Link',
                 )))
             ->add('aliases', 'collection', array(
                 'type' => new AliasType(),

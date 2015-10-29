@@ -15,7 +15,7 @@ class AliasType extends AbstractType
                 'label' => false,
                 'required'  => false,
                 'attr'  => array(
-                    'placeholder' => 'Alias',
+                    'placeholder' => 'alias',
                 )
             ));
     }

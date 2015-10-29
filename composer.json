@@ -33,7 +33,9 @@
         "symfony/monolog-bundle": "~2.4",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/symfony": "2.7.*",
-        "designmodo/Flat-UI": "2.2.*"
+        "designmodo/Flat-UI": "2.2.*",
+        "twbs/bootstrap": "^3.3",
+        "components/jquery": "1.11.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

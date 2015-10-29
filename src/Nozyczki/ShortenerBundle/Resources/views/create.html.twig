@@ -5,51 +5,48 @@
 {% block form_widget_compound %}
     {% for child in form %}
         {% for kiddy in child %}
-            {{ form_row(kiddy, { 'attr': {'class': 'input-lg'}}) }}
+<div class="form-group">
+    <div class="input-group input-group-hg">
+        <span class="input-group-addon">✁.ws/</span>
+        {{ form_widget(kiddy, { 'attr': {'class': 'input-hg'}}) }}
+    </div>
+</div>
         {% endfor %}
     {% endfor %}
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            {{ form_start(form, { 'attr': {'class': 'form-horizontal'}}) }}
-            <div class="form-group">
-                {{ form_widget(form.uri, { 'attr': {'class': 'input-lg'}}) }}
+    <div class="container">
+        <div class="row">
+            <div class="login-screen">
+                <div class="login-icon" style="top: 125px; left: 250px;">
+                    {% image '@NozyczkiShortenerBundle/Resources/public/img/icons/png/Scissors.png' %}
+                    <img src="{{ asset_url }}" alt="Scissors Url Shortener" />
+                    {% endimage %}
+                    <h4 style="color: #fff">
+                        Scissors
+                        <small>Url Shortener</small>
+                    </h4>
+                </div>
+                <div class="login-form">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_widget(form.uri, { 'attr': {'class': 'input-hg has-feedback'}}) }}
+                    <span class="form-control-feedback fui-link"></span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-hg btn-embossed btn-inverse dropdown-toggle dropup" type="button" data-toggle="collapse" data-target="#collapseOptions" aria-expanded="false" aria-controls="collapseExample">
+                        <span class="fui-gear"></span>
+                        <span class="caret"></span>
+                    </button>
+                </div>
+                <div class="collapse" id="collapseOptions">
+                        {{ form_widget(form.aliases) }}
+                </div>
+                <button class="btn btn-embossed btn-danger btn-hg btn-block" type="submit">Shorten!</button>
+                {{ form_end(form) }}
+                </div>
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Options
-                </button>
-            </div>
-            <div class="collapse" id="collapseExample">
-                  {{ form_widget(form.aliases) }}
-            </div>
-            <div class="form-group">
-                <button class="btn btn-default btn-lg" type="submit">Shorten</button>
-            </div>
-            {{ form_end(form) }}
         </div>
     </div>
-</div>
 {% endblock %}
-{#{{ form_start(form, { 'attr': {'class': 'form-inline navbar-form navbar-left'} }) }}#}
-    {#{{ form_widget(form.uri, { 'attr': {'class': 'input-lg', 'placeholder': 'Url'}}) }}#}
-    {#<div class="container">#}
-        {#<div class="row">#}
-            {#<div class="col-md-8 col-md-offset-2">#}
-                {#<nav class="navbar navbar-inverse navbar-lg">#}
-                    {#<div class="navbar-header">#}
-                        {#<a href="#" class="navbar-brand">Nożyczki</a>#}
-                    {#</div>#}
-
-                    {#<div class="form-group has-feedback">#}
-                        {#<span class="form-control-feedback fui-link"></span>#}
-                    {#</div>#}
-                        {#{{ form_widget(form.aliases, { 'attr': {'class': 'input-hg', 'placeholder': 'Alias'}}) }}#}
-                    {#<button class="btn btn-inverse btn-lg" type="submit">Create</button>#}
-                {#</nav>#}
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
