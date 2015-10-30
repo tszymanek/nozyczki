@@ -1,3 +1,35 @@
+html, body{
+    height:100%;
+}
+
 body {
     background-color: #1abc9c;
+}
+
+.vcenter {
+}
+.container-fluid {
+    display:table;
+    height:100%;
+    width: 100%;
+}
+
+.row {
+    display:table-cell;
+    height: 100%;
+    vertical-align: middle;
+}
+
+h5 {
+    font-weight: normal;
+}
+
+h5>small{
+    font-weight: 700;
+}
+
+#form {
+    background-color: #edeff1;
+    border-radius: 6px;
+    padding: 24px 23px 20px;
 }
