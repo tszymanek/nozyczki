@@ -31,6 +31,17 @@ class Link
     private $aliases;
 
     /**
+    * ANTIBOT v1, if entity contains this field
+    * aka field !== null, it means a bot has filled
+    * the hidden formfield
+    *
+    *
+    * @Assert\Blank()
+    * @MongoDB\String
+    */
+    private $aabsiv;
+
+    /**
      * @return id $id
      */
     public function getId()
@@ -54,6 +65,22 @@ class Link
     {
         $this->uri = $uri;
         return $this;
+    }
+
+    /**
+     * @return string $aabsiv
+     */
+    public function getAabsiv() {
+      return $this->aabsiv;
+    }
+
+    /**
+    * @param string $botValue
+    * @return self
+    */
+    public function setAabsiv($botValue) {
+      $this->aabsiv = $botValue;
+      return $this;
     }
 
     /**

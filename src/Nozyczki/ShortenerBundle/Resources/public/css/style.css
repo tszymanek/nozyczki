@@ -33,3 +33,10 @@ h5>small{
     border-radius: 6px;
     padding: 24px 23px 20px;
 }
+
+.aabsiv {
+    overflow: hidden;
+    position:absolute;
+    left:-9999px;
+    z-index: -9999;
+}
