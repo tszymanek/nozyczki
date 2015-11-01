@@ -71,9 +71,4 @@ class Link
     {
         return $this->aliases;
     }
-
-    public function __construct()
-    {
-        $this->aliases = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 }

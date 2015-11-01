@@ -1,0 +1,33 @@
+<?php
+
+namespace Nozyczki\ShortenerBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
+class User
+{
+    /**
+     * @MongoDB\Id
+     */
+    private $id;
+
+    /**
+     * @MongoDB\String
+     */
+    private $ip;
+
+    /**
+     * @MongoDB\Increment
+     */
+    private $counter;
+
+    /**
+     * @MongoDB\Date
+     */
+    private $modifiedAt;
+
+    
+}
