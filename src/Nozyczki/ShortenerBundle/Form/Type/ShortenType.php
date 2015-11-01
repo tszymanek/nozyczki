@@ -19,7 +19,15 @@ class ShortenType extends AbstractType
                 'type' => new AliasType(),
                 'options'  => array(
                     'label'  => false),
-                ));
+                ))
+            ->add('aabsiv', 'text', array(
+              'label'     => false,
+              'required'  => false,
+              'attr' => array(
+                  'class' => 'aabsiv'
+              )
+            ));
+            $builder->setAction('/nada/'.substr(md5(rand()), 0, 2));
     }
 
     public function configureOptions(OptionsResolver $resolver)
