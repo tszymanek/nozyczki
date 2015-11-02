@@ -1,7 +1,8 @@
 <?php
 namespace Nozyczki\ShortenerBundle\Controller;
-use Nozyczki\ShortenerBundle\Document\Link;
 use Nozyczki\ShortenerBundle\Document\Alias;
+use Nozyczki\ShortenerBundle\Document\Link;
+use Nozyczki\ShortenerBundle\Document\User;
 use Nozyczki\ShortenerBundle\Form\Type\ShortenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,6 +21,7 @@ class DefaultController extends Controller
     {
         $link = new Link();
         $alias = new Alias();
+        $user = new User();
         $link->addAlias($alias);
         $alias->setLink($link);
         $form = $this->createForm(new ShortenType(), $link);
@@ -46,8 +48,20 @@ class DefaultController extends Controller
                     )
                 );
             }
-            $link->addAlias($alias);
-            $alias->setLink($link);
+            $user=$this->checkUserAction($user, $dm);
+            if ($user->getCounter() > 5) {
+                $interval = date_create('now')->diff($user->getModifiedAt());
+                if($interval->d < 1){
+                    $message = 'Wykorzystałeś dzienny limit.';
+                    $type = 'warning';
+                    return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
+                        'message' => $message,
+                        'type' => $type
+                    ));
+                }
+                $user->resetCounter();
+            }
+            $dm->persist($user);
             $dm->persist($link);
             $dm->persist($alias);
             $dm->flush();
@@ -62,6 +76,17 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+    public function checkUserAction(User $user, $dm){
+        $ip = $this->container->get('request')->getClientIp();
+        if(!null == $dbUser = $dm->getRepository('NozyczkiShortenerBundle:User')->findOneBy(array('ip' => $ip))) {
+            $user = $dbUser;
+        }
+        else
+            $user->setIp($ip);
+        return $user;
+    }
+
     /**
      * @Route("/{alias}", name="link_show")
      * @Method("GET")

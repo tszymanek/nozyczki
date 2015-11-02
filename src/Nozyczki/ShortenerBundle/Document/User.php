@@ -23,14 +23,16 @@ class User
     /**
      * @MongoDB\Increment
      */
-    private $counter=1;
+    private $counter;
 
     /**
      * @MongoDB\Date
      */
     private $modifiedAt;
 
-    
+    public function __construct(){
+        $this->counter=0;
+    }
 
     /**
      * Get id
@@ -61,11 +63,16 @@ class User
     }
 
     /**
-     * @param increment $counter
+     * @MongoDB\PrePersist
+     * @MongoDB\PostLoad
      */
     public function incrementCounter()
     {
         $this->counter++;
+    }
+
+    public function resetCounter(){
+        $this->counter=0;
     }
 
     /**
@@ -79,17 +86,13 @@ class User
     /**
      * @MongoDB\PrePersist
      * @MongoDB\PreUpdate
-     * @return self
      */
     public function setModifiedAt()
     {
-        $this->modifiedAt = New \DateTime();
-        return $this;
+        $this->modifiedAt = new \DateTime();
     }
 
     /**
-     * Get modifiedAt
-     *
      * @return date $modifiedAt
      */
     public function getModifiedAt()
