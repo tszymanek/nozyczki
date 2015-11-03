@@ -21,7 +21,7 @@ class Alias
     /**
      * @MongoDB\Boolean
      */
-    private $custom=FALSE;
+    private $custom;
 
     /**
      * @Assert\Regex(
@@ -36,6 +36,10 @@ class Alias
      * @MongoDB\ReferenceOne(targetDocument="Link", inversedBy="aliases", simple=true)
      */
     private $link;
+
+    public function __construct(){
+        $this->custom=FALSE;
+    }
 
     /**
      * @return id $id
@@ -58,7 +62,17 @@ class Alias
      */
     public function setIsCustom()
     {
-        return $this->custom = TRUE;
+        $this->custom = TRUE;
+    }
+
+    /**
+     * @MongoDB\PrePersist
+     */
+    public function checkAlias(){
+        if($this->getAlias())
+            $this->setIsCustom();
+        else
+            $this->setAlias();
     }
 
 //    public function __construct($options = array()){

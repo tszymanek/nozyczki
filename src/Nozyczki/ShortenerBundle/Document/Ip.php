@@ -8,7 +8,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  * @MongoDB\Document
  * @MongoDB\HasLifecycleCallbacks
  */
-class User
+class Ip
 {
     /**
      * @MongoDB\Id
@@ -31,7 +31,7 @@ class User
     private $modifiedAt;
 
     public function __construct(){
-        $this->counter=0;
+        $this->counter=1;
     }
 
     /**
@@ -63,7 +63,6 @@ class User
     }
 
     /**
-     * @MongoDB\PrePersist
      * @MongoDB\PostLoad
      */
     public function incrementCounter()
@@ -72,7 +71,7 @@ class User
     }
 
     public function resetCounter(){
-        $this->counter=0;
+        $this->counter=1;
     }
 
     /**
@@ -93,7 +92,7 @@ class User
     }
 
     /**
-     * @return date $modifiedAt
+     * @return \DateTime $modifiedAt
      */
     public function getModifiedAt()
     {

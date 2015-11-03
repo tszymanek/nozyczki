@@ -1,15 +1,23 @@
 <?php
 namespace Nozyczki\ShortenerBundle\Controller;
+
+use Doctrine\ODM\MongoDB\DocumentManager;
+
 use Nozyczki\ShortenerBundle\Document\Alias;
 use Nozyczki\ShortenerBundle\Document\Link;
-use Nozyczki\ShortenerBundle\Document\User;
+use Nozyczki\ShortenerBundle\Document\Ip;
+
 use Nozyczki\ShortenerBundle\Form\Type\ShortenType;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 class DefaultController extends Controller
 {
     /**
@@ -21,24 +29,33 @@ class DefaultController extends Controller
     {
         $link = new Link();
         $alias = new Alias();
-        $user = new User();
         $link->addAlias($alias);
-        $alias->setLink($link);
+
         $form = $this->createForm(new ShortenType(), $link);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $dm = $this->get('doctrine_mongodb')->getManager();
-            if($alias->getAlias())
-                $alias->setIsCustom();
+
+            $currentIp = new Ip();
+            $ip = $this->container->get('request')->getClientIp();
+            if(!null == $dbIp = $dm->getRepository('NozyczkiShortenerBundle:Ip')->findOneBy(array('ip' => $ip)))
+                $currentIp = $dbIp;
             else
-                $alias->setAlias();
-            // it's fine when link exists, just don't persist the same one
-            if(!null == ($dbLink = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $link->getUri())))) {
-                $link = $dbLink;
-                $link->addAlias($alias);
-                $alias->setLink($link);
+                $currentIp->setIp($ip);
+            if($currentIp->getCounter() > 5){
+                $interval = date_create('now')->diff($currentIp->getModifiedAt());
+                if($interval->d < 1){
+                    $message    = 'Wykorzystałeś dzienny limit.';
+                    $type       = 'warning';
+                    return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
+                        'message' => $message,
+                        'type' => $type
+                        )
+                    );
+                }
+                $currentIp->resetCounter();
             }
-            // Abort when alias exists
+
             if(!null == ($dbAlias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias->getAlias())))) {
                 $message  = 'URL already shortened under this alias. Pick another one mate.';
                 $type     = 'warning';
@@ -48,22 +65,16 @@ class DefaultController extends Controller
                     )
                 );
             }
-            $user=$this->checkUserAction($user, $dm);
-            if ($user->getCounter() > 5) {
-                $interval = date_create('now')->diff($user->getModifiedAt());
-                if($interval->d < 1){
-                    $message = 'Wykorzystałeś dzienny limit.';
-                    $type = 'warning';
-                    return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
-                        'message' => $message,
-                        'type' => $type
-                    ));
-                }
-                $user->resetCounter();
+
+            if(!null == ($dbLink = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $link->getUri())))) {
+                $link = $dbLink;
+                $link->addAlias($alias);
             }
-            $dm->persist($user);
+
+            $alias->setLink($link);
             $dm->persist($link);
             $dm->persist($alias);
+            $dm->persist($currentIp);
             $dm->flush();
             return $this->redirect($this->generateUrl(
                 'link_show',
@@ -75,16 +86,6 @@ class DefaultController extends Controller
             'aliases' => $alias,
             'form' => $form->createView(),
         ));
-    }
-
-    public function checkUserAction(User $user, $dm){
-        $ip = $this->container->get('request')->getClientIp();
-        if(!null == $dbUser = $dm->getRepository('NozyczkiShortenerBundle:User')->findOneBy(array('ip' => $ip))) {
-            $user = $dbUser;
-        }
-        else
-            $user->setIp($ip);
-        return $user;
     }
 
     /**
