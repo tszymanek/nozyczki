@@ -14,12 +14,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/")
      * @Method({"GET", "POST"})
@@ -33,58 +35,77 @@ class DefaultController extends Controller
 
         $form = $this->createForm(new ShortenType(), $link);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $dm = $this->get('doctrine_mongodb')->getManager();
-
-            $currentIp = new Ip();
-            $ip = $this->container->get('request')->getClientIp();
-            if(!null == $dbIp = $dm->getRepository('NozyczkiShortenerBundle:Ip')->findOneBy(array('ip' => $ip)))
-                $currentIp = $dbIp;
-            else
-                $currentIp->setIp($ip);
-            if($currentIp->getCounter() > 5){
-                $interval = date_create('now')->diff($currentIp->getModifiedAt());
-                if($interval->d < 1){
-                    $message    = 'Wykorzystałeś dzienny limit.';
-                    $type       = 'warning';
-                    return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
-                        'message' => $message,
-                        'type' => $type
-                        )
-                    );
-                }
-                $currentIp->resetCounter();
-            }
-
-            if(!null == ($dbAlias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias->getAlias())))) {
-                $message  = 'URL already shortened under this alias. Pick another one mate.';
-                $type     = 'warning';
-                return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
-                        'message' => $message,
-                        'type'    => $type
-                    )
-                );
-            }
-
-            if(!null == ($dbLink = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $link->getUri())))) {
-                $link = $dbLink;
-                $link->addAlias($alias);
-            }
-
-            $alias->setLink($link);
-            $dm->persist($link);
-            $dm->persist($alias);
-            $dm->persist($currentIp);
-            $dm->flush();
-            return $this->redirect($this->generateUrl(
-                'link_show',
-                array('alias' => $alias->getAlias())
+            $response = $this->forward('NozyczkiShortenerBundle:Default:manage', array(
+                'link'  => $link,
+                'alias' => $alias
             ));
+
+            return $response;
         }
+
         return $this->render('NozyczkiShortenerBundle::create.html.twig', array(
             'link' => $link,
             'aliases' => $alias,
             'form' => $form->createView(),
+        ));
+    }
+
+    public function manageAction($link, $alias){
+        $dm = $this->get('doctrine_mongodb')->getManager();
+
+        if(!null == $dbGlobalCounter = $dm->getRepository('NozyczkiShortenerBundle:Ip')->findOneBy(array('ip' => '0.0.0.0')))
+            $globalCounter = $dbGlobalCounter;
+        else{
+            $globalCounter = new Ip();
+            $globalCounter->setIp('0.0.0.0');
+        }
+
+        $currentIp = new Ip();
+        $ip = $this->container->get('request')->getClientIp();
+        if(!null == $dbIp = $dm->getRepository('NozyczkiShortenerBundle:Ip')->findOneBy(array('ip' => $ip)))
+            $currentIp = $dbIp;
+        else
+            $currentIp->setIp($ip);
+
+        if($currentIp->getCounter() > 5){
+            $interval = date_create('now')->diff($currentIp->getModifiedAt());
+            if($interval->d < 1){
+                $message    = 'Wykorzystałeś dzienny limit.';
+                $type       = 'warning';
+                return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
+                        'message' => $message,
+                        'type' => $type
+                    )
+                );
+            }
+            $currentIp->resetCounter();
+        }
+
+        if(!null == ($dbAlias = $dm->getRepository('NozyczkiShortenerBundle:Alias')->findOneBy(array('alias' => $alias->getAlias())))) {
+            $message  = 'URL already shortened under this alias. Pick another one mate.';
+            $type     = 'warning';
+            return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
+                    'message' => $message,
+                    'type'    => $type
+                )
+            );
+        }
+
+        if(!null == ($dbLink = $dm->getRepository('NozyczkiShortenerBundle:Link')->findOneBy(array('uri' => $link->getUri())))) {
+            $link = $dbLink;
+            $link->addAlias($alias);
+        }
+
+        $alias->setLink($link);
+        $dm->persist($link);
+        $dm->persist($alias);
+        $dm->persist($currentIp);
+        $dm->flush();
+        return $this->redirect($this->generateUrl(
+            'link_show',
+            array('alias' => $alias->getAlias())
         ));
     }
 
