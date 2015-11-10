@@ -5,12 +5,7 @@
 {% block form_widget_compound %}
     {% for child in form %}
         {% for kiddy in child %}
-<div class="form-group">
-    <div class="input-group input-group-hg">
-        <span class="input-group-addon">✁.ws/</span>
         {{ form_widget(kiddy, { 'attr': {'class': 'input-hg'}}) }}
-    </div>
-</div>
         {% endfor %}
     {% endfor %}
 {% endblock %}
@@ -40,9 +35,15 @@
                 </button>
             </div>
             <div class="collapse" id="collapseOptions">
-                    {{ form_widget(form.aliases) }}
+                <div class="form-group">
+                    <div class="input-group input-group-hg">
+                        <span class="input-group-addon">✁.ws/</span>
+                            {{ form_widget(form.aliases) }}
+                    </div>
+                    <span class="form-control-feedback control-feedback-hg"></span>
+                </div>
             </div>
-            <button class="btn btn-embossed btn-danger btn-hg btn-block" type="submit">Shorten!</button>
+            <button id="submitRequest" class="btn btn-embossed btn-danger btn-hg btn-block" type="submit">Shorten!</button>
             {{ form_end(form) }}
             </div>
         </div>

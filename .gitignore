@@ -1,3 +1,4 @@
+
 /web/bundles/
 /app/bootstrap.php.cache
 /app/cache/*
@@ -9,4 +10,5 @@
 /build/
 /vendor/
 /bin/
+/.idea/*
 /composer.phar

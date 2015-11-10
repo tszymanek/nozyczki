@@ -52,14 +52,42 @@ class DefaultController extends Controller
         ));
     }
 
+    /**
+     * @Route("/ajaxAliasExists", name="ajax_alias_exists", options={"expose"=true})
+     * @param Request $request
+     */
+    public function aliasExistsAction(Request $request){
+        if($request->isXmlHttpRequest()) {
+            $alias = $request->get("alias");
+            $dm = $this->get('doctrine_mongodb')->getManager();
+            $aliasRepository = $dm->getRepository('NozyczkiShortenerBundle:Alias');
+            $aliasExists = $aliasRepository->findOneBy(array('alias' => $alias));
+            if($aliasExists == null)
+                return new JsonResponse(array('aliasExists' => true));
+            else
+                return new JsonResponse(array('aliasExists' => false));
+        }
+    }
+
     public function manageAction($link, $alias){
         $dm = $this->get('doctrine_mongodb')->getManager();
 
         if(!null == $dbGlobalCounter = $dm->getRepository('NozyczkiShortenerBundle:Ip')->findOneBy(array('ip' => '0.0.0.0')))
             $globalCounter = $dbGlobalCounter;
-        else{
+        else
             $globalCounter = new Ip();
-            $globalCounter->setIp('0.0.0.0');
+
+        if($globalCounter->getCounter() > 100){
+            $interval = date_create('now')->diff($globalCounter->getModifiedAt());
+            if($interval->d < 1){
+                $message    = 'Wykorzystano dzienny limit serwisu.';
+                $type       = 'warning';
+            return $this->render('NozyczkiShortenerBundle::error.html.twig', array(
+                    'message' => $message,
+                    'type' => $type
+                    )
+                );
+            }
         }
 
         $currentIp = new Ip();
@@ -101,12 +129,17 @@ class DefaultController extends Controller
         $alias->setLink($link);
         $dm->persist($link);
         $dm->persist($alias);
+        $dm->persist($globalCounter);
         $dm->persist($currentIp);
         $dm->flush();
         return $this->redirect($this->generateUrl(
             'link_show',
             array('alias' => $alias->getAlias())
         ));
+    }
+
+    public function counterCheck($ip, $limit, $message){
+
     }
 
     /**

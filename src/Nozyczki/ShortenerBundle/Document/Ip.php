@@ -32,6 +32,7 @@ class Ip
 
     public function __construct(){
         $this->counter=1;
+        $this->ip = "0.0.0.0";
     }
 
     /**
@@ -71,7 +72,7 @@ class Ip
     }
 
     public function resetCounter(){
-        $this->counter=1;
+        $this->counter=0;
     }
 
     /**
